@@ -7,7 +7,7 @@
     <style>
          {% load static %}
         body {
-            background-image: url("{% static 'images/1_Blog_Featured_Image-scaled-1.jpg' %}");
+            background-image: url('static/images/homepage.png');
             background-size: cover;
             background-position: left top;
             background-repeat: no-repeat;
@@ -19,29 +19,28 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: top;
-            height: 50vh;
+            justify-content: center;
+            height: 100vh;
         }
 
         .content {
             text-align: center;
-
         }
 
         h1 {
-            color: white;
-            margin-top: 0;
+            color:rgba(3 39 28 / 94%);
             background-color: rgba(0, 0, 0, 0); /* Semi-transparent black background */
             padding: 10px 20px;
             border-radius: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 2.5em;
+            text-shadow: 3px 3px 3px rgba(8, 70, 51, 0.94);
         }
 
-        p {color: white;
+        p { color :rgba(3 39 28 / 94%);
             margin: 20px auto;
             width: 80%;
-            font-size: 1.2em;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            font-size: 2em;
+            text-shadow: 3px 3px 3px rgba(8, 70, 51, 0.94);
         }
 
         ul {
@@ -61,7 +60,7 @@
         ul li a {
             text-decoration: none;
             padding: 10px 20px;
-            background-color: blue;
+            background-color: darkgreen;
             color: white;
             border-radius: 5px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
@@ -69,7 +68,7 @@
         }
 
         ul li a:hover {
-            background-color: darkgreen;
+            background-color: blue;
             transform: scale(1.05);
         }
     </style>
