@@ -38,7 +38,7 @@ def Dlist(request):
                 if person_counter == 0:
                     #alerte whatsapp
                     account_sid = 'AC9a44f63eaaccb841d7c27c5bc38bd8e5'
-                    auth_token = 'efc8e9e98daa496e73b6150169b6b926'
+                    auth_token = '7fba83fffe62851072a2bb2f19a4cb4c'
                     client = Client(account_sid, auth_token)
                     message_whatsapp = client.messages.create(
                         from_='whatsapp:+14155238886',
@@ -59,7 +59,7 @@ def Dlist(request):
                 elif person_counter == 1:
                     # alerte whatsapp
                     account_sid = 'AC9a44f63eaaccb841d7c27c5bc38bd8e5'
-                    auth_token = 'efc8e9e98daa496e73b6150169b6b926'
+                    auth_token = '7fba83fffe62851072a2bb2f19a4cb4c'
                     client = Client(account_sid, auth_token)
                     message_whatsapp = client.messages.create(
                         from_='whatsapp:+14155238886',
