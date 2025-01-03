@@ -1,76 +1,105 @@
-{% extends 'base.html' %}
-{% block i %}
-
+{% extends 'navBar.html' %}
 {% load static %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<div  class="show-row">
-    <h1>Dashbord / Table / Last</h1>
-       <form method="post" id="my-form" >
-        {% csrf_token %}
-        {{form}}
-    </form>
 
-</div>
-<div class="projects">
+{% block index %}
+<html lang="en">
 
-  <div class ="tables" >
-     <table>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DASHBOARD</title>
+    <link rel="stylesheet" href="{% static 'css/table.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            padding-top: 60px; /* Ajustez selon la hauteur de votre navbar */
+            background-color: #f4f4f4; /* Couleur de fond générale */
+            background-image: url('static/images/hp2.jpg');
+            background-size: cover; /* L'image couvre tout l'écran */
+            background-position: center; /* Centrer l'image */
+            background-repeat: no-repeat; /* Ne pas répéter l'image */
+            background-attachment: fixed; /* L'image reste fixe lors du défilement */
+            backdrop-filter: blur(3px);
 
-    <thead class="DIV">
-        <tr>
-            <th>Nom <img  id="Capteur-logo" src="{% static 'images/dht11.jpg' %}" alt="Capteur Image"></th>
-            <th>Temperature <img  id="Temperature-logo" src="{% static 'images/temp.jpg' %}" alt="Temperature Image"></th>
-            <th>Humidity  <img id="Humidity-logo" src="{% static 'images/humidity.jpg' %}" alt="Humidity Image"></th>
-            <th>Date <img id="time-logo" src="{% static 'images/time.jpg' %}" alt="Humidity Image"> </th>
-        </tr>
-    </thead>
-    <tbody>
+        }
 
-        <tr>
-            <td><a href="{% url 'myChartTemp' %}" >DHT 11</a></td>
-<td>{{ valeurs.temp }} </td>
-            <td>{{ valeurs.hum }}</td>
-            <td>{{ valeurs.date }}</td>
-        </tr>
+        .dashboard {
+            background-color: rgba(198, 158, 241, 0.94); /* Couleur violet */
+            display: flex;
+            flex-direction: column;
+            opacity: 0.8;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 1200px; /* Limite la largeur maximum si nécessaire */
+            margin: 20px auto; /* Centre le tableau */
+            margin-top: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    </tbody>
-</table>
+        h1 {
+            color: rgba(54, 7, 103, 0.94); /* Couleur du titre */
+            text-align: center;
+        }
 
-<p> ce tableau présente les mesures actuelles de température et d'humidité enregistrées par le capteur DHT11. Ces données sont essentielles pour surveiller et ajuster les conditions environnementales en temps réel.</p>
-</div >
-<button id='csv' >Télecharger csv</button>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-     </div>
-  <script>
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+            color: rgba(46, 5, 89, 0.94); /* Couleur du texte des cellules */
+        }
 
-    var selectEl = $('#mon_select');
+        th {
+            background-color: rgb(255, 255, 255); /* Couleur d'arrière-plan des en-têtes */
+        }
 
-    selectEl.change(function() {
-        $('#my-form').submit();
-    });
+        tr:nth-child(even) {
+            background-color: rgba(160, 80, 240, 0.5); /* Couleur d'arrière-plan des lignes paires */
+        }
 
-    var downloadButton = document.getElementById('csv');
-downloadButton.addEventListener('click', function() {
-var xhr = new XMLHttpRequest();
-xhr.open('GET', '/download_csv/', true);
-xhr.responseType = 'blob';
-xhr.onload = function() {
-if (xhr.status === 200) {
-  var url = window.URL.createObjectURL(xhr.response);
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = 'model_values.csv';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
-};
-xhr.send();
-});
-// Fonction pour recharger la page toutes les minutes
-    setInterval(function() {
-        location.reload();
-    }, 600000); // 6000000 millisecondes = 1 minute (ou comme vous voullez)
- 
-</script>
-{% endblock i %}
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Effet de survol */
+        }
+
+        img {
+            width: 20px; /* Ajustez la taille des images */
+            height: 20px;
+            vertical-align: middle; /* Aligne verticalement les images */
+            margin-left: 5px; /* Espace entre le texte et l'image */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard">
+        <h1>DASHBOARD </h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom <img id="Capteur-logo" src="{% static 'images/dht11.jpg' %}" alt="Capteur Image"></th>
+                    <th>Temperature <img id="Temperature-logo" src="{% static 'images/temp.jpg' %}" alt="Temperature Image"></th>
+                    <th>Humidity <img id="Humidity-logo" src="{% static 'images/humidity.jpg' %}" alt="Humidity Image"></th>
+                    <th>Date <img id="time-logo" src="{% static 'images/time.jpg' %}" alt="Humidity Image"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="{% url 'myChartTemp' %}" style="color: rgba(46,5,89,0.94); text-decoration: underline;">DHT 11</a></td>
+                    <td>{{ valeurs.temp }} °C</td>
+                    <td>{{ valeurs.hum }} %</td>
+                    <td>{{ valeurs.date }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
+{% endblock index %}
