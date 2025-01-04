@@ -43,53 +43,15 @@ from .models import Dht11
 from datetime import timedelta
 
 def table(request):
-    # Get the last record
     derniere_ligne = Dht11.objects.last()
-
-    # Get the records for the last 7 days
-    last_7_days = Dht11.objects.filter(dt__gte=timezone.now() - timedelta(days=7))
-
-    if derniere_ligne:
-        # Get the datetime of the last record
-        derniere_date = derniere_ligne.dt
-
-        # Calculate the time difference in minutes
-        delta_temps = timezone.now() - derniere_date
-        difference_minutes = delta_temps.seconds // 60
-        temps_ecoule = f'il y a {difference_minutes} min'
-
-        # Format in hours and minutes if more than 60 minutes
-        if difference_minutes >= 60:
-            heures = difference_minutes // 60
-            minutes = difference_minutes % 60
-            temps_ecoule = f'il y a {heures}h {minutes}min'
-
-        # Prepare the context
-        valeurs = {
-            'date': temps_ecoule,
-            'id': derniere_ligne.id,
-            'temp': derniere_ligne.temp,
-            'hum': derniere_ligne.hum
-        }
-    else:
-        valeurs = {
-            'date': 'Aucune donnée disponible',
-            'id': None,
-            'temp': None,
-            'hum': None
-        }
-
-    # Prepare data for the last 7 days
-    historique = [
-        {
-            'date': data.dt.strftime("%Y-%m-%d"),
-            'temp': data.temp,
-            'hum': data.hum
-        }
-        for data in last_7_days
-    ]
-
-    return render(request, 'value.html', {'valeurs': valeurs, 'historique': historique})
+    derniere_date = Dht11.objects.last().dt
+    delta_temps = timezone.now() - derniere_date
+    difference_minutes = delta_temps.seconds // 60
+    temps_ecoule = ' il y a ' + str(difference_minutes) + ' min'
+    if difference_minutes > 60:
+        temps_ecoule = 'il y ' + str(difference_minutes // 60) + 'h' + str(difference_minutes % 60) + 'min'
+    valeurs = {'date': temps_ecoule, 'id': derniere_ligne.id, 'temp': derniere_ligne.temp, 'hum': derniere_ligne.hum}
+    return render(request, 'value.html', {'valeurs': valeurs})
 
 
 def download_csv(request):

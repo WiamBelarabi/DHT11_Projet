@@ -1,32 +1,152 @@
+{% load static %}
+<html lang="en">
 
-  <div class="navbar">
-    <nav >
-        <h2 class="logo">SURVEILLANCE IOT:CAPTEUR DHT11</h2>
+<style>
+    body {
+    font-family: fantasy;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Couleur de fond générale */
+}
 
-            <ul>
-                    <li>  <a href="{% url 'table' %}" >Table</a></li>
-                    <li>  <a href="{% url 'myChartTemp' %}" >graph of temperature</a></li>
-                    <li>  <a href="{% url 'myChartHum' %}" >graph of humidity</a></li>
-                    <li>  <a href="{% url 'json' %}" >Json</a></li>
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 97%;
+    background-color: rgba(64, 17, 114, 0.94); /* Couleur violet */
+    padding: 10px 20px;
+    margin: 0px;
+}
+
+.menu-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.logo span {
+    color: #ffcc00; /* Couleur pour le texte "SENSOR" */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+li {
+    position: relative;
+    margin-left: 20px;
+}
+
+a {
+    color: white; /* Couleur des liens */
+    text-decoration: none;
+    padding: 10px;
+    transition: background-color 0.3s;
+}
+
+a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Effet de survol */
+    border-radius: 5px; /* Coins arrondis */
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #6a0dad; /* Couleur violet */
+    min-width: 160px;
+    z-index: 1;
+    border-radius: 5px;
+}
+
+li:hover .dropdown-menu {
+    display: block; /* Affiche le menu déroulant au survol */
+}
+
+.dropdown-menu ul {
+    padding: 0;
+}
+
+.dropdown-menu li {
+    margin: 0; /* Enlève la marge pour les éléments du menu déroulant */
+}
+
+.dropdown-menu a {
+    padding: 10px;
+    color: white; /* Couleur des liens dans le menu déroulant */
+    display: block;
+}
+
+.dropdown-menu a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Effet de survol pour les éléments du menu déroulant */
+}
+</style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/table.css' %}">
+      <link rel="stylesheet" href="{% static 'css/chart.css' %}">
+    <title>SURVEILLANCE IOT</title>
+  </head>
+  <body>
+  <header class="header">
+    <div class="menu-bar">
+      <a href='table' class="wiam" ><h1 class="logo"><span>SURVEILLANCE IOT</span></h1></a>
+      <ul>
+        <ul>
+            <li><a id="graphique_Temp">GRAPH TEMPERATURE<i class="fas fa-caret-down"></i></a>
+                <div class="dropdown-menu">
+                    <ul>
+                        <li><a href="{% url 'chart_temp_jour' %}" id="aujourdhui-link">JOUR</a></li>
+                        <li><a href="{% url 'chart_temp_semaine' %}" id="semaine-link">SEMAINE</a></li>
+                        <li><a href="{% url 'chart_temp_mois' %}" id="mois-link">MOIS</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a id="graphique_Hum">GRAPH HUMIDITE<i class="fas fa-caret-down"></i></a>
+                <div class="dropdown-menu">
+                    <ul>
+                        <li><a href="{% url 'chart_hum_jour' %}" id="hum-aujourdhui-link">JOUR</a></li>
+                        <li><a href="{% url 'chart_hum_semaine' %}" id="hum-semaine-link">SEMAINE</a></li>
+                        <li><a href="{% url 'chart_hum_mois' %}" id="hum-mois-link">MOIS</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
 
 
-            </ul>
-            <form method="post" action="{% url 'table' %}">
-                {% csrf_token %}
+        <li><a href="download_csv">TELECHARGER CSV<i class="fas fa-caret-down"></i></a>
 
-                <select id="select" name="select_field">
+          <div class="dropdown-menu">
+              <ul>
+                <li><a href="csv_jour">JOUR</a></li>
+                <li>   <a href="csv_semaine">SSEMAINE</a></li>
+                <li> <a href="csv_mois">MOIS</a></li>
+              </ul>
+            </div>
+      </li>
+          <li>  <a href="{% url 'json' %}" >JSON</a></li>
+        {% if user.is_authenticated %}
+   <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+          <li style="color :red" >INCIDENT</li>
+{% endif %}
+      </ul>
+    </div>
 
-                  <option value="signup" selected>S'inscrire</option>
-                  <option value="logout">Se déconnecter</option>
-                </select>
+</header>
+  </body>
+</html>
 
-              </form>
-            <p>  </p>
-
-
-    </nav>
-</div>
-   <br>
-   <br>
-   <br>
-  <br>
+{% block index %}
+{% endblock index %}

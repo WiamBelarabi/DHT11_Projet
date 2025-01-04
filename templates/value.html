@@ -1,6 +1,5 @@
 {% extends 'navBar.html' %}
 {% load static %}
-
 {% block index %}
 <html lang="en">
 
@@ -8,20 +7,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DASHBOARD</title>
-    <link rel="stylesheet" href="{% static 'css/table.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chart.css' %}">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            padding-top: 60px; /* Ajustez selon la hauteur de votre navbar */
-            background-color: #f4f4f4; /* Couleur de fond générale */
             background-image: url('static/images/hp2.jpg');
             background-size: cover; /* L'image couvre tout l'écran */
             background-position: center; /* Centrer l'image */
             background-repeat: no-repeat; /* Ne pas répéter l'image */
             background-attachment: fixed; /* L'image reste fixe lors du défilement */
             backdrop-filter: blur(3px);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            padding-top: 60px; /* Ajustez selon la hauteur de votre navbar */
+            background-color: #f4f4f4; /* Couleur de fond générale */
 
         }
 
@@ -33,13 +32,13 @@
             padding: 20px;
             border-radius: 10px;
             max-width: 1200px; /* Limite la largeur maximum si nécessaire */
-            margin: 20px auto; /* Centre le tableau */
+            margin: auto; /* Centre le tableau */
             margin-top: 50px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
-            color: rgba(54, 7, 103, 0.94); /* Couleur du titre */
+            color: rgba(34, 3, 66, 0.94); /* Couleur du titre */
             text-align: center;
         }
 

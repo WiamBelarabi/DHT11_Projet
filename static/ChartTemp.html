@@ -1,61 +1,131 @@
-{% extends 'base.html' %}
+{% extends 'navBar.html' %}
 {% load static %}
 
-{% block content %}
-<div class="graphique">
-    <canvas id="graphique-temp" height="220"></canvas>
-</div>
+{% block index %}
+<html lang="en">
+<head>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-<script>
-    function updateTempChart(url) {
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const labels = data.temps;
-                const dataValues = data.temperature;
+        body {
+            padding-top: 3cm;
+            font-family: 'Arial', sans-serif;
+            background-color: rgba(159, 115, 204, 0.94);
+            display: flex; /* Centrer le contenu */
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Hauteur de la fenêtre */
+            margin: 0;
+        }
 
-                const ctx = document.getElementById('graphique-temp').getContext('2d');
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Température (°C)',
-                            data: dataValues,
-                            backgroundColor: 'rgba(255, 0, 0, 0.2)',
-                            borderColor: 'rgba(255, 0, 0, 1)',
-                            borderWidth: 2,
-                            pointStyle: 'circle',
-                            pointRadius: 2,
-                            pointBorderColor: 'red'
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true,
-                                    callback: function(value) { return value + '°'; }
-                                }
-                            }],
-                            xAxes: [{
-                                type: 'time',
-                                time: {
-                                    unit: 'hour',
-                                    displayFormats: { hour: 'HH:mm' }
-                                },
-                                ticks: { autoSkip: true, maxRotation: 45, minRotation: 0 }
-                            }]
+        .card-body {
+           width: 80%; /* Largeur augmentée */
+            max-width: 1200px; /* Limite la largeur */
+            margin: 0px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+         #myAreaChart {
+            width: 732px;
+            height: 400px;
+        }
+    </style>
+    <title>Temperature Chart</title>
+</head>
+<body>
+    <div class="card-body">
+        <canvas id="myAreaChart"></canvas>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    </div>
+
+    <script>
+        const dates = ['{% for i in tab %}' ,'{{i.dt}}', '{% endfor %}'];
+        const datas = ['{% for i in tab %}', '{{i.temp}}',' {% endfor %}'];
+        var ctx = document.getElementById('myAreaChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Température',
+                    data: datas,
+                    borderColor: 'rgb(255,0,8)',  // Couleur de la ligne (bleue)
+                    backgroundColor: 'rgba(0, 0, 0, 0)',  // Pas de remplissage
+                    borderWidth: 2,
+                    fill: false  // Désactiver le remplissage
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            fontColor: 'rgb(68,13,13)',
+                            fontSize: 14,
+                            fontFamily: 'Arial',
+                            fontWeight: 900
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Température C°',
+                            fontSize: 16,
+                            fontFamily: 'Arial',
+                            fontColor: '#000',
+                            fontStyle: 'bold'
+                        },
+                        gridLines: {
+                            color: '#ddd'
                         }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: 'rgb(68,13,13)',
+                            fontSize: 12,
+                            fontFamily: 'Arial',
+                            fontStyle: 'normal', // Pas d'italique
+                            maxRotation: 90, // Texte totalement horizontal
+                            minRotation: 90, // Texte totalement horizontal
+                            autoSkip: true, // Désactiver l'auto-saut
+                            callback: function(value) {
+                                const parts = value.split(' ');
+                                return parts.length > 1 ? parts.join('\n') : value;
+                            }
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Temps',
+                            fontSize: 16,
+                            fontFamily: 'Arial',
+                            fontColor: '#000',
+                            fontStyle: 'bold'
+                        },
+                        gridLines: {
+                            color: '#ddd',
+                            borderDash: [5, 5] // Carrés dans la grille
+                        }
+                    }]
+                },
+                legend: {
+                    labels: {
+                        fontColor: '#ff0008',
+                        fontSize: 14,
+                        fontFamily: 'Arial',
+                        fontWeight: 800
                     }
-                });
-            });
-    }
+                }
+            }
+        });
 
-    // Load data for initial chart (default to "JOUR" for demonstration)
-    updateTempChart('{% url "chart_data_temp_jour" %}');
-    updateTempChart('{% url "chart_data_temp_semaine" %}');
-    updateTempChart('{% url "chart_data_temp_mois" %}');
-</script>
-{% endblock %}
+    </script>
+</body>
+</html>
+
+{% endblock index %}
