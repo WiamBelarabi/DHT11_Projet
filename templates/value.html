@@ -33,10 +33,13 @@
             border-radius: 10px;
             max-width: 1200px; /* Limite la largeur maximum si nécessaire */
             margin: auto; /* Centre le tableau */
-            margin-top: 50px;
+            margin-top: 100px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
         }
-
+        .dashboard:hover {
+            transform: scale(1.02); /* Slight zoom on hover */
+        }
         h1 {
             color: rgba(34, 3, 66, 0.94); /* Couleur du titre */
             text-align: center;

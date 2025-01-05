@@ -17,16 +17,16 @@
             font-family: 'Arial', sans-serif;
             background-image: url('static/images/hp2.jpg');
             backdrop-filter: blur(3px);
-            display: flex; /* Centrer le contenu */
+            display: flex; /* Center the content */
             justify-content: center;
             align-items: center;
-            height: 100vh; /* Hauteur de la fenêtre */
+            height: 100vh; /* Full height */
             margin: 0;
         }
 
         .card-body {
-            width: 80%; /* Largeur augmentée */
-            max-width: 1200px; /* Limite la largeur */
+            width: 80%; /* Increased width */
+            max-width: 1200px; /* Limit width */
             margin: 0px;
             background-color: #fff;
             padding: 10px;
@@ -48,87 +48,82 @@
     </div>
 
     <script>
-    const dates = ['{% for i in tab %}' ,'{{i.dt}}','{% endfor %}'];
-    const datas = ['{% for i in tab %}' ,'{{i.hum}}', '{% endfor %}'];
+        const dates = [{% for i in tab %}'{{ i.dt }}'{% if not forloop.last %}, {% endif %}{% endfor %}];
+        const datas = [{% for i in tab %}{{ i.hum }}{% if not forloop.last %}, {% endif %}{% endfor %}];
 
-    var ctx = document.getElementById('myAreaChart').getContext('2d');
-   var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: dates,
-        datasets: [{
-            label: 'Humidité',
-            data: datas,
-            borderColor: 'rgba(0, 0, 255, 1)',  // Couleur de la ligne (bleue)
-            backgroundColor: 'rgba(0, 0, 0, 0)',  // Pas de remplissage
-            borderWidth: 2,
-            fill: false  // Désactiver le remplissage
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true,
-                    fontColor: 'rgb(22, 17, 128)',
-                    fontSize: 14,
-                    fontFamily: 'Arial',
-                    fontWeight: 900
+        var ctx = document.getElementById('myAreaChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Humidité',
+                    data: datas,
+                    borderColor: 'rgba(0, 0, 255, 1)',  // Line color (blue)
+                    backgroundColor: 'rgba(0, 0, 0, 0)',  // No fill
+                    borderWidth: 2,
+                    fill: false,  // Disable fill
+                    pointRadius: 3,  // Size of the points
+                    pointBackgroundColor: 'rgba(0, 0, 255, 1)'  // Point color
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            fontColor: 'rgb(22, 17, 128)',
+                            fontSize: 14,
+                            fontFamily: 'Arial',
+                            fontWeight: 900
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Humidité (%)',
+                            fontSize: 16,
+                            fontFamily: 'Arial',
+                            fontColor: '#000',
+                            fontStyle: 'bold'
+                        },
+                        gridLines: {
+                            color: '#ddd'
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: 'rgb(22, 17, 128)',
+                            fontSize: 12,
+                            fontFamily: 'Arial',
+                            fontStyle: 'normal', // No italics
+                            maxRotation: 90, // Fully horizontal text
+                            minRotation: 90, // Fully horizontal text
+                            autoSkip: true,
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Temps',
+                            fontSize: 16,
+                            fontFamily: 'Arial',
+                            fontColor: '#000',
+                            fontStyle: 'bold'
+                        },
+                        gridLines: {
+                            color: '#ddd',
+                            borderDash: [5, 5] // Dotted grid
+                        }
+                    }]
                 },
-                scaleLabel: {
-                    display: true,
-                    labelString: 'Humidité (%)',
-                    fontSize: 16,
-                    fontFamily: 'Arial',
-                    fontColor: '#000',
-                    fontStyle: 'bold'
-                },
-                gridLines: {
-                    color: '#ddd'
-                }
-            }],
-            xAxes: [{
-                ticks: {
-                    fontColor: 'rgb(22, 17, 128)',
-                    fontSize: 12,
-                    fontFamily: 'Arial',
-                    fontStyle: 'normal', // Pas d'italique
-                    maxRotation: 90, // Texte totalement horizontal
-                    minRotation: 90, // Texte totalement horizontal
-                    autoSkip: true, // Désactiver l'auto-saut
-                    callback: function(value) {
-                        const parts = value.split(' ');
-                        return parts.length > 1 ? parts.join('\n') : value;
+                legend: {
+                    labels: {
+                        fontColor: '#1E88E5',
+                        fontSize: 14,
+                        fontFamily: 'Arial',
+                        fontWeight: 800
                     }
-                },
-                scaleLabel: {
-                    display: true,
-                    labelString: 'Temps',
-                    fontSize: 16,
-                    fontFamily: 'Arial',
-                    fontColor: '#000',
-                    fontStyle: 'bold'
-                },
-                gridLines: {
-                    color: '#ddd',
-                    borderDash: [5, 5] // Carrés dans la grille
                 }
-            }]
-        },
-        legend: {
-            labels: {
-                fontColor: '#1E88E5',
-                fontSize: 14,
-                fontFamily: 'Arial',
-                fontWeight: 800
             }
-        }
-    }
-});
-
-</script>
-
+        });
+    </script>
 </body>
 </html>
-
 {% endblock index %}
