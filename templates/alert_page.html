@@ -1,0 +1,102 @@
+{% extends 'navBar.html' %}
+{% load static %}
+
+{% block index %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('static/images/hp2.jpg');
+            backdrop-filter: blur(3px);
+            margin: 0;
+            padding: 20px;
+            padding-top: 200px;
+        }
+        .alert-container {
+            background-color: #ffdddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #f44336;
+            border-radius: 5px;
+        }
+        .alert-message {
+            color: #d8000c;
+            margin: 0;
+        }
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background-color: grey;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .toggle::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+        .toggle.on {
+            background-color: green;
+        }
+        .toggle.on::before {
+            transform: translateX(30px);
+        }
+        .archive-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #008CBA; /* Blue */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="alert-container">
+        <p class="alert-message">Alerte : La température dépasse le seuil! Veillez intervenir</p>
+
+        <div class="toggle-container">
+            <div class="toggle" id="toggleButton" onclick="toggleAlert()"></div>
+        </div>
+        <a href="{% url 'archive' %}" class="archive-button">Voir l'archive des incidents</a>
+    </div>
+
+    <script>
+        let alertStatus = false;
+
+        function toggleAlert() {
+            alertStatus = !alertStatus;
+            const toggleButton = document.getElementById('toggleButton');
+            if (alertStatus) {
+                toggleButton.classList.add('on');
+            } else {
+                toggleButton.classList.remove('on');
+            }
+            // Here you can add code to send the state to the backend if needed
+        }
+    </script>
+
+</body>
+</html>
+{% endblock index %}
