@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from twilio.rest import Client
 import requests
+from .models import Dht11, Incident
 person_counter = 0
 def send_telegram_message(token, chat_id, message):
     url = f"https://api.telegram.org/bot{token}/sendMessage"
@@ -35,6 +36,8 @@ def Dlist(request):
 
             #alertes
             if derniere_temperature > 25:
+                Incident.objects.create(temperature=derniere_temperature)
+
                 if person_counter == 0:
                     #alerte whatsapp
                     account_sid = 'AC9a44f63eaaccb841d7c27c5bc38bd8e5'

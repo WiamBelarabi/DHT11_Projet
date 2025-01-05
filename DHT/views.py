@@ -203,9 +203,13 @@ from .models import Dht11
 
 
 
-def sendtele():
-    token = '6662023260:AAG4z48OO9gL8A6szdxg0SOma5hv9gIII1E'
-    rece_id = 1242839034
-    bot = telepot.Bot(token)
-    bot.sendMessage(rece_id, 'la température depasse la normale')
-    print(bot.sendMessage(rece_id, 'OK.'))
+# views.py
+from .models import Dht11, Incident
+
+def some_view(request):
+    # Check if there's any incident
+    incident_active = Incident.objects.filter(temperature__gt=25).exists()
+    return render(request, 'alert_page.html', {'incident_active': incident_active})
+def archive_view(request):
+    incidents = Incident.objects.all()
+    return render(request, 'archive.html', {'incidents': incidents})

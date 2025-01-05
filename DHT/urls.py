@@ -23,6 +23,8 @@ urlpatterns = [
     path('csv_semaine', views.csv_semaine, name='csvS'),
     path('csv_mois', views.csv_mois, name='csvM'),
     path('csv_jour', views.csv_jour, name='csvJ'),
+    path('alert', views.some_view, name='alert'),
+    path('archive', views.archive_view, name='archive'),
 
 
 ]

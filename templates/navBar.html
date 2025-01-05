@@ -136,9 +136,9 @@ li:hover .dropdown-menu {
             </div>
       </li>
           <li>  <a href="{% url 'json' %}" >JSON</a></li>
+          <li><a href="{% url 'alert' %}" {% if incident_active %} STYLE="color:red" {% endif %}>ALERTES</a></li>
         {% if user.is_authenticated %}
-   <li><a href="{% url 'logout' %}">LOGOUT</a></li>
-          <li style="color :red" >INCIDENT</li>
+        <li><a href="{% url 'logout' %}">LOGOUT</a></li>
 {% endif %}
       </ul>
     </div>
