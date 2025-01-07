@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import Dht11  # Assurez-vous d'importer le modèle Dht11
 from django.utils import timezone
+from django.db.models import Max, Min
+
 import csv
 from django.http import HttpResponse
 from django.utils import timezone
@@ -50,9 +52,16 @@ def table(request):
     temps_ecoule = ' il y a ' + str(difference_minutes) + ' min'
     if difference_minutes > 60:
         temps_ecoule = 'il y ' + str(difference_minutes // 60) + 'h' + str(difference_minutes % 60) + 'min'
-    valeurs = {'date': temps_ecoule, 'id': derniere_ligne.id, 'temp': derniere_ligne.temp, 'hum': derniere_ligne.hum}
-    return render(request, 'value.html', {'valeurs': valeurs})
 
+    today = timezone.now().date()
+    # Calculate max and min temperatures and humidity for today
+    daily_records = Dht11.objects.filter(dt__date=today)
+    max_temp = daily_records.aggregate(Max('temp'))['temp__max']
+    min_temp = daily_records.aggregate(Min('temp'))['temp__min']
+    max_hum = daily_records.aggregate(Max('hum'))['hum__max']
+    min_hum = daily_records.aggregate(Min('hum'))['hum__min']
+    valeurs = {'date': temps_ecoule, 'id': derniere_ligne.id, 'temp': derniere_ligne.temp, 'hum': derniere_ligne.hum ,'max_temp': max_temp,'min_temp': min_temp,'max_hum': max_hum,'min_hum': min_hum,}
+    return render(request, 'value.html', {'valeurs': valeurs})
 
 def download_csv(request):
     model_values = Dht11.objects.all()

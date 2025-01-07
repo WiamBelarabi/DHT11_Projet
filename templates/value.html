@@ -25,82 +25,113 @@
         }
 
         .dashboard {
-            background-color: rgba(198, 158, 241, 0.94); /* Couleur violet */
+            background-color: rgba(161, 110, 215, 0.94); /* Couleur violet */
             display: flex;
             flex-direction: column;
             opacity: 0.8;
             padding: 20px;
+            padding-left: 0px;
+            padding-right: 0;
             border-radius: 10px;
             max-width: 1200px; /* Limite la largeur maximum si nécessaire */
             margin: auto; /* Centre le tableau */
-            margin-top: 100px;
+            margin-top: 75px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
         }
-        .dashboard:hover {
+        .rectangle:hover {
             transform: scale(1.02); /* Slight zoom on hover */
         }
+        .rectangle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(255, 255, 255);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px ;
+            width: 80%;
+            height: 150px;
+            align-self: center;
+
+}
+        .left-section {
+            flex: 1;
+            text-align: left;
+            padding-right: 10px;
+}
+        .value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #e79600;
+            margin-bottom: 5px;
+        }
+
+        .time {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .divider {
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ccc, #eee);
+            box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        .right-section {
+            flex: 1;
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        .max, .min {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: rgba(34, 3, 66, 0.94);
+            text-align: right;
+        }
+
+
         h1 {
             color: rgba(34, 3, 66, 0.94); /* Couleur du titre */
             text-align: center;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
 
-        th, td {
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #ddd;
-            color: rgba(46, 5, 89, 0.94); /* Couleur du texte des cellules */
-        }
-
-        th {
-            background-color: rgb(255, 255, 255); /* Couleur d'arrière-plan des en-têtes */
-        }
-
-        tr:nth-child(even) {
-            background-color: rgba(160, 80, 240, 0.5); /* Couleur d'arrière-plan des lignes paires */
-        }
-
-        tr:hover {
-            background-color: rgba(255, 255, 255, 0.2); /* Effet de survol */
-        }
-
-        img {
-            width: 20px; /* Ajustez la taille des images */
-            height: 20px;
-            vertical-align: middle; /* Aligne verticalement les images */
-            margin-left: 5px; /* Espace entre le texte et l'image */
-        }
     </style>
 </head>
 
 <body>
     <div class="dashboard">
         <h1>DASHBOARD </h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nom <img id="Capteur-logo" src="{% static 'images/dht11.jpg' %}" alt="Capteur Image"></th>
-                    <th>Temperature <img id="Temperature-logo" src="{% static 'images/temp.jpg' %}" alt="Temperature Image"></th>
-                    <th>Humidity <img id="Humidity-logo" src="{% static 'images/humidity.jpg' %}" alt="Humidity Image"></th>
-                    <th>Date <img id="time-logo" src="{% static 'images/time.jpg' %}" alt="Humidity Image"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><a href="{% url 'myChartTemp' %}" style="color: rgba(46,5,89,0.94); text-decoration: underline;">DHT 11</a></td>
-                    <td>{{ valeurs.temp }} °C</td>
-                    <td>{{ valeurs.hum }} %</td>
-                    <td>{{ valeurs.date }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+          <!-- Temperature Rectangle -->
+        <div class="rectangle">
+            <div class="left-section">
+                <h1 class="title">Température</h1>
+                <p class="value">{{ valeurs.temp }} °C</p>
+                <p class="time">{{ valeurs.date }}</p>
+            </div>
+            <div class="divider"></div>
+            <div class="right-section">
+                <p class="max">Max du jour : {{ valeurs.max_temp }}°C</p>
+                <p class="min">Min du jour : {{ valeurs.min_temp}}°C</p>
+            </div>
+        </div>
+          <!-- Humidity Rectangle -->
+        <div class="rectangle">
+            <div class="left-section">
+                <h1 class="title">Humidité</h1>
+                <p class="value">{{ valeurs.hum }} %</p>
+                <p class="time">{{ valeurs.date }}</p>
+            </div>
+            <div class="divider"></div>
+            <div class="right-section">
+                <p class="max">Max du jour : {{ valeurs.max_hum }}%</p>
+                <p class="min">Min du jour : {{ valeurs.min_hum}}%</p>
+            </div>
+        </div>
+        </div>
 </body>
 
 </html>
