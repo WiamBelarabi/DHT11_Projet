@@ -67,7 +67,7 @@ def Dlist(request):
                     message_whatsapp = client.messages.create(
                         from_='whatsapp:+14155238886',
                         body='La température dépasse le seuil, veuillez intervenir immédiatement pour vérifier et corriger cette situation',
-                        to='whatsapp:+212762374139'
+                        to='whatsapp:+212630007311'
                     )
                     # alerte telegrame
                     telegram_token = '7062029872:AAGDu-hzpcuBcLyiRekV3HCiMW8n5DFUcnk'
@@ -78,7 +78,7 @@ def Dlist(request):
                     subject = 'Alerte'
                     message = 'La température dépasse le seuil, veuillez intervenir immédiatement pour vérifier et corriger cette situation'
                     email_from = settings.EMAIL_HOST_USER
-                    recipient_list = ['wiambelarabi10@gmail.com']
+                    recipient_list = ['safaeaamou123@gmail.com']
                     send_mail(subject, message, email_from, recipient_list)
 
                 person_counter += 1
